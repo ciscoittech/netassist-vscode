@@ -1,0 +1,208 @@
+{
+  "name": "netassist",
+  "displayName": "NetAssist - AI Network Engineer",
+  "description": "AI-powered network automation with secure IP sanitization for Cisco, pyATS, and network troubleshooting",
+  "version": "1.0.0",
+  "publisher": "netassist",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/netassist/vscode-extension"
+  },
+  "engines": {
+    "vscode": "^1.93.0"
+  },
+  "categories": [
+    "AI",
+    "Other",
+    "Snippets"
+  ],
+  "keywords": [
+    "network",
+    "cisco",
+    "pyats",
+    "ai",
+    "automation",
+    "troubleshooting",
+    "ip-sanitization"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "netassist.openChat",
+        "title": "NetAssist: Open Chat",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "netassist.newSession",
+        "title": "NetAssist: New Session",
+        "icon": "$(add)"
+      },
+      {
+        "command": "netassist.switchMode",
+        "title": "NetAssist: Switch Mode",
+        "icon": "$(settings-gear)"
+      },
+      {
+        "command": "netassist.sanitizeSelection",
+        "title": "NetAssist: Sanitize Selection",
+        "icon": "$(shield)"
+      },
+      {
+        "command": "netassist.generatePyATS",
+        "title": "NetAssist: Generate pyATS Script",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "netassist.loadCiscoDocs",
+        "title": "NetAssist: Load Cisco Documentation",
+        "icon": "$(book)"
+      },
+      {
+        "command": "netassist.startTroubleshooting",
+        "title": "NetAssist: Start Troubleshooting",
+        "icon": "$(search)"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "netassist-sidebar",
+          "title": "NetAssist",
+          "icon": "$(network)"
+        }
+      ]
+    },
+    "views": {
+      "netassist-sidebar": [
+        {
+          "type": "webview",
+          "id": "netassist.chatView",
+          "name": "Network Assistant",
+          "when": "true"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "NetAssist",
+      "properties": {
+        "netassist.sanitizationServer": {
+          "type": "string",
+          "default": "http://localhost:8000",
+          "description": "URL of the NetAssist sanitization server"
+        },
+        "netassist.aiProvider": {
+          "type": "string",
+          "enum": [
+            "anthropic",
+            "openai",
+            "azure",
+            "local"
+          ],
+          "default": "anthropic",
+          "description": "AI provider for network assistance"
+        },
+        "netassist.defaultMode": {
+          "type": "string",
+          "enum": [
+            "config",
+            "troubleshoot",
+            "validate",
+            "document"
+          ],
+          "default": "config",
+          "description": "Default network assistance mode"
+        },
+        "netassist.pyatsPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to pyATS installation (leave empty for auto-detection)"
+        },
+        "netassist.autoSanitize": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically sanitize network configurations before AI processing"
+        },
+        "netassist.sanitizationLevel": {
+          "type": "string",
+          "enum": [
+            "conservative",
+            "balanced",
+            "aggressive"
+          ],
+          "default": "balanced",
+          "description": "Level of sanitization applied to network configurations"
+        },
+        "netassist.enableAuditLog": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable audit logging for sanitization operations"
+        }
+      ]
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "command": "netassist.sanitizeSelection",
+          "when": "editorHasSelection",
+          "group": "netassist"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "netassist.newSession",
+          "when": "view == netassist.chatView",
+          "group": "navigation"
+        }
+      ]
+    },
+    "languages": [
+      {
+        "id": "cisco-config",
+        "aliases": [
+          "Cisco Configuration",
+          "cisco"
+        ],
+        "extensions": [
+          ".cfg",
+          ".conf"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "cisco-config",
+        "scopeName": "source.cisco",
+        "path": "./syntaxes/cisco.tmGrammar.json"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.93.0",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "eslint": "^8.47.0",
+    "typescript": "^5.1.6",
+    "@vscode/test-electron": "^2.3.4",
+    "@vscode/vsce": "^2.19.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "uuid": "^9.0.1",
+    "@types/uuid": "^9.0.7"
+  }
+}
