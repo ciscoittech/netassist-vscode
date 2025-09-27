@@ -84,4 +84,4 @@ demo-data/
 # Sanitization server data
 sanitization-server/data/
 sanitization-server/sessions/
-sanitization-server/audit-logs/
+sanitization-server/audit-logs/claude-agent-framework/

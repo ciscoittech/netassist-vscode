@@ -34,10 +34,10 @@ echo ""
 echo "📋 Repository Configuration"
 read -p "GitHub username: " GITHUB_USERNAME
 read -p "Repository name [netassist-vscode]: " REPO_NAME
-REPO_NAME=${REPO_NAME:-netassist-vscode}
+REPO_NAME=${REPO_NAME:-netassist-vscode-extension}
 
 read -p "Repository description [AI-powered network engineering assistant for VS Code]: " REPO_DESC
-REPO_DESC=${REPO_DESC:-"AI-powered network engineering assistant for VS Code with secure IP sanitization"}
+REPO_DESC=${REPO_DESC:-"AI-powered network engineering assistant for VS Code with secure IP sanitization, multi-agent orchestration, and enterprise security features"}
 
 read -p "Make repository private initially? [y/N]: " MAKE_PRIVATE
 MAKE_PRIVATE=${MAKE_PRIVATE:-n}
@@ -169,45 +169,73 @@ if [ "$HAS_GH_CLI" = true ]; then
     echo "✅ Custom labels created"
 fi
 
-# Create initial issues for development
+# Create NetAssist epics and initial issues
 if [ "$HAS_GH_CLI" = true ]; then
     echo ""
-    echo "📋 Creating initial development issues..."
+    echo "📋 Creating NetAssist epics and Sprint 1 issues..."
+
+    # Epic 1: Foundation & Extension Architecture
+    gh issue create \
+        --title "[EPIC] VS Code Extension Foundation with Agent System" \
+        --body "$(cat github-setup/netassist-epic-issues.md | head -100)" \
+        --label "epic,priority: p0-critical,sprint: week-1-2,component: foundation"
+
+    # Sprint 1 User Stories
+    gh issue create \
+        --title "[STORY] Install NetAssist extension with secure foundation" \
+        --body "**As a** network engineer
+**I want to** install NetAssist extension
+**So that** I can get AI assistance for network tasks with enterprise security
+
+## Acceptance Criteria
+- [ ] Extension installs from .vsix package
+- [ ] FastAPI sanitization server starts automatically
+- [ ] Agent system loads without errors
+- [ ] Security status indicator shows 'Protected'
+
+## Agent Assignment
+- architect: Extension architecture design
+- engineer: VS Code extension implementation
+- network-specialist: Security requirements validation" \
+        --label "user-story,priority: p0-critical,sprint: week-1-2,agent: architect,component: foundation"
 
     gh issue create \
-        --title "Implement TypeScript mode handlers" \
-        --body "Complete the implementation of network-specific modes:
-- ConfigMode.ts
-- TroubleshootMode.ts
-- ValidateMode.ts
-- DocumentMode.ts
+        --title "[STORY] Automatic IP sanitization for safe AI processing" \
+        --body "**As a** network engineer
+**I want to** have my IP addresses automatically sanitized
+**So that** I can safely use AI without security risks
 
-Each mode should handle requests appropriately and integrate with the sanitization provider." \
-        --label "enhancement,network-modes"
+## Acceptance Criteria
+- [ ] All IPv4/IPv6 addresses replaced before cloud API calls
+- [ ] Network ranges and subnets properly sanitized
+- [ ] Original values restored in AI responses
+- [ ] Sanitization audit log maintained
 
-    gh issue create \
-        --title "Build React UI components" \
-        --body "Create the React-based chat interface:
-- NetAssistantPanel.tsx
-- ChatInterface.tsx
-- ModeSelector.tsx
-- SecurityStatus component
-
-Follow the UI/UX guidelines in DEVELOPMENT.md" \
-        --label "enhancement,ui/ux"
+## Agent Assignment
+- network-specialist: Sanitization patterns and algorithms
+- api-specialist: FastAPI endpoint implementation
+- reviewer: Security validation and testing" \
+        --label "user-story,priority: p0-critical,sprint: week-1-2,agent: network-specialist,component: sanitization"
 
     gh issue create \
-        --title "Add OpenRouter API integration" \
-        --body "Implement the OpenRouter API client with Qwen model support:
-- Model selection logic
-- Cost optimization
-- Error handling
-- Response streaming
+        --title "[STORY] Dynamic network agent loading based on configuration type" \
+        --body "**As a** network engineer
+**I want to** have network specialist agents loaded automatically
+**So that** I get relevant expertise based on my configuration type
 
-Reference the model selection strategy in documentation." \
-        --label "enhancement,ai-models"
+## Acceptance Criteria
+- [ ] Cisco config detected → cisco-specialist agent loaded
+- [ ] Linux iptables detected → linux-specialist agent loaded
+- [ ] Cloud config detected → cloud-specialist agent loaded
+- [ ] Multiple agents can be active simultaneously
 
-    echo "✅ Initial development issues created"
+## Agent Assignment
+- architect: Agent loading strategy and orchestration
+- engineer: Agent detection and routing logic
+- network-specialist: Configuration type detection patterns" \
+        --label "user-story,priority: p1-high,sprint: week-1-2,agent: architect,component: agents"
+
+    echo "✅ NetAssist epics and initial Sprint 1 issues created"
 fi
 
 # Final instructions

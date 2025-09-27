@@ -1,0 +1,96 @@
+{
+  "project": {
+    "name": "NetAssist VS Code Extension",
+    "type": "vscode-extension",
+    "version": "1.0.0",
+    "tech_stack": ["typescript", "python", "fastapi", "network-engineering"]
+  },
+  "agents": {
+    "core": {
+      "architect": {
+        "path": "agents/core/architect.md",
+        "triggers": ["design", "architecture", "structure", "component"],
+        "tools": ["Read", "Write", "Edit", "Bash", "Glob", "Grep"],
+        "specialization": "VS Code + FastAPI architecture"
+      },
+      "engineer": {
+        "path": "agents/core/engineer.md",
+        "triggers": ["implement", "code", "build", "develop", "fix"],
+        "tools": ["Read", "Write", "Edit", "MultiEdit", "Bash", "Grep", "Glob"],
+        "specialization": "TypeScript + Python development"
+      },
+      "reviewer": {
+        "path": "agents/core/reviewer.md",
+        "triggers": ["review", "security", "quality", "compliance", "audit"],
+        "tools": ["Read", "Grep", "Bash", "Write"],
+        "specialization": "Security + network compliance"
+      }
+    },
+    "specialists": {
+      "network-specialist": {
+        "path": "agents/specialists/network-specialist.md",
+        "triggers": ["ip", "network", "sanitize", "cisco", "vlan", "subnet", "pyats"],
+        "tools": ["Read", "Write", "Edit", "Grep", "Glob", "Bash"],
+        "specialization": "Network engineering + IP sanitization"
+      },
+      "api-specialist": {
+        "path": "agents/specialists/api-specialist.md",
+        "triggers": ["api", "fastapi", "endpoint", "rest", "integration"],
+        "tools": ["Read", "Write", "Edit", "Bash", "Grep", "Glob"],
+        "specialization": "FastAPI + network data processing"
+      }
+    }
+  },
+  "commands": {
+    "build": {
+      "path": "commands/build.md",
+      "description": "Complete TDD development cycle",
+      "agents": ["architect", "engineer", "network-specialist"],
+      "execution": "parallel-then-sequential"
+    },
+    "test": {
+      "path": "commands/test.md",
+      "description": "Comprehensive test execution",
+      "agents": ["engineer", "network-specialist"],
+      "execution": "parallel"
+    },
+    "debug": {
+      "path": "commands/debug.md",
+      "description": "Network-specific debugging",
+      "agents": ["engineer", "network-specialist", "reviewer"],
+      "execution": "sequential"
+    },
+    "deploy": {
+      "path": "commands/deploy.md",
+      "description": "Package and deploy extension",
+      "agents": ["architect", "reviewer"],
+      "execution": "sequential"
+    },
+    "github-setup": {
+      "path": "commands/github-setup.md",
+      "description": "Create and configure GitHub repository with NetAssist epics",
+      "agents": ["architect", "engineer", "reviewer"],
+      "execution": "sequential"
+    }
+  },
+  "patterns": {
+    "network_sanitization": {
+      "agents": ["network-specialist", "api-specialist"],
+      "execution": "parallel"
+    },
+    "extension_development": {
+      "agents": ["architect", "engineer"],
+      "execution": "sequential"
+    },
+    "security_review": {
+      "agents": ["reviewer", "network-specialist"],
+      "execution": "parallel"
+    }
+  },
+  "config": {
+    "max_parallel_agents": 3,
+    "cache_agents": true,
+    "lazy_loading": true,
+    "context_limit": "10KB"
+  }
+}

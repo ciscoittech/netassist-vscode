@@ -1,0 +1,25 @@
+{
+  "project": {
+    "name": "NetAssist VS Code Extension",
+    "type": "vscode-extension",
+    "version": "1.0.0",
+    "complexity": "medium"
+  },
+  "tech_stack": {
+    "frontend": "typescript",
+    "backend": "python-fastapi",
+    "specialization": "network-engineering",
+    "infrastructure": "docker"
+  },
+  "agent_config": {
+    "auto_load_limit": "5KB",
+    "max_parallel": 3,
+    "cache_agents": true,
+    "lazy_loading": true
+  },
+  "build_config": {
+    "test_framework": ["jest", "pytest"],
+    "package_manager": "npm",
+    "deployment_target": "vscode-marketplace"
+  }
+}
